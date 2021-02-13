@@ -1,2 +1,4 @@
-import {generateRandomPhotos} from './random-photos.js';
-generateRandomPhotos();
+import './photo-preview.js';
+
+
+

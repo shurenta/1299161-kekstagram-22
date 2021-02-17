@@ -4,11 +4,11 @@ const photos = generateRandomPhotos();
 const containerPhoto = document.querySelector('.pictures');
 const templatePreviewPhoto = document.querySelector('#picture').content;
 const similarFragmentPhoto = document.createDocumentFragment();
-
-photos.forEach(({url, comments, likes}) => {
+photos.forEach(({url, comments, likes, id}) => {
 
   const templateImgPhoto = templatePreviewPhoto.querySelector('.picture__img');
   templateImgPhoto.src = url;
+  templateImgPhoto.setAttribute('data-id-photo', id);
 
 
   const templateCommentsPhoto = templatePreviewPhoto.querySelector('.picture__comments');
@@ -22,4 +22,5 @@ photos.forEach(({url, comments, likes}) => {
   similarFragmentPhoto.appendChild(elementPhoto);
 });
 containerPhoto.appendChild(similarFragmentPhoto);
+export {containerPhoto};
 

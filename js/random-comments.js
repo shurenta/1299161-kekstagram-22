@@ -1,7 +1,7 @@
 import {NAMES, COMMENTS} from './dataUsers.js';
 import {getRandomNumber} from './random-number.js';
 import {generateArrayOfIds} from './array-of-ids.js';
-import {getRandomArrayElement} from './random-array-element.js';
+import {getRandomArrayElement} from './utils.js';
 const MIN_ID_COMMENTS = 1;
 const MAX_ID_COMMENTS = 999;
 const MIN_NUMBER_AVATAR = 1;

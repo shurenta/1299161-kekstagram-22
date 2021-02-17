@@ -1,4 +1,1 @@
-import './photo-preview.js';
-
-
-
+import './generateModalPhoto/modal-photo.js';

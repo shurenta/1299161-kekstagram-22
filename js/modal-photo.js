@@ -3,29 +3,27 @@ import {photos} from './photo-preview.js';
 import {isEscEvent} from './util.js';
 
 //ищет id элемента по которому кликнули
-const getIdPhoto = (evt) => {
-  const thisObjekt = evt.target;
-  const objektId = thisObjekt.dataset.id;
-  const elementArrayPhoto = photos.find(img => img.id === Number(objektId));
-  return elementArrayPhoto;
+const getPhoto = (evt) => {
+  const id = evt.target.dataset.id;
+  return photos.find(img => img.id === Number(id));
 }
 
 
 //подставляет фото и описание
-const generateBigPhoto = (evt) => {
+const renderBigPhoto = (photo) => {
   const bigImgContainer = document.querySelector('.big-picture__img');
   const bigImg = bigImgContainer.querySelector('img');
-  bigImg.src = getIdPhoto(evt).url;
+  bigImg.src = photo.url;
   //подстовляет описание фото
   const descriptionBigPhoto = document.querySelector('.social__caption');
-  descriptionBigPhoto.textContent = getIdPhoto(evt).description;
+  descriptionBigPhoto.textContent = photo.description;
 }
 
 
 //подставляет данные в список коментариев
 const commentsList = document.querySelector('.social__comments');
-const generateDataCommentsBigPhoto = (evt) => {
-  const commentsArray = getIdPhoto(evt).comments;
+const renderDataCommentsBigPhoto = (photo) => {
+  const commentsArray = photo.comments;
   const templateCommentsItem = document.querySelector('#comment').content;
   const similarFragmentComment = document.createDocumentFragment();
   commentsArray.forEach(({avatar, message, name}) => {
@@ -42,16 +40,16 @@ const generateDataCommentsBigPhoto = (evt) => {
 
 
 //подставляет колличество коментариев в попап
-const generateQuantityCommentsBigPhoto = (evt) => {
+const renderQuantityCommentsBigPhoto = (photo) => {
   const modalPhoto = document.querySelector('.big-picture');
   const commentsBigPhoto = modalPhoto.querySelector('.comments-count');
-  const commentsArray = getIdPhoto(evt).comments;
+  const commentsArray = photo.comments;
   commentsBigPhoto.textContent = commentsArray.length;
 }
 
 
 //подставляет колличество лайков в попап
-const generateQuantityLikesBigPhoto = (evt) => {
+const renderQuantityLikesBigPhoto = (evt) => {
   const thisObjekt = evt.target;
   const miniPhotoInfo = thisObjekt.nextElementSibling;
   const miniPhotoLikes = miniPhotoInfo.querySelector('.picture__likes');
@@ -76,6 +74,8 @@ const onPopupEscKeydown = (evt) => {
 
 //открывает модольное окно
 const openModalPhoto = (evt) => {
+  const photo = getPhoto(evt);
+  renderBigPhoto(photo);
   const modalPhoto = document.querySelector('.big-picture');
   const commentCount = modalPhoto.querySelector('.social__comment-count');
   const commentLoader = modalPhoto.querySelector('.comments-loader');
@@ -84,10 +84,9 @@ const openModalPhoto = (evt) => {
   commentCount.classList.add('hidden');
   commentLoader.classList.add('hidden');
   body.classList.add('modal-open');
-  generateBigPhoto(evt);
-  generateQuantityLikesBigPhoto(evt);
-  generateQuantityCommentsBigPhoto(evt);
-  generateDataCommentsBigPhoto(evt);
+  renderQuantityLikesBigPhoto(evt);
+  renderQuantityCommentsBigPhoto(photo);
+  renderDataCommentsBigPhoto(photo);
   document.addEventListener('keydown', onPopupEscKeydown);
 }
 

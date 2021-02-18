@@ -1,25 +1,27 @@
-import {generateRandomPhotos} from './random-photos.js';
+import {generateRandomPhotos} from './generate-data.js';
 
 const photos = generateRandomPhotos();
 const containerPhoto = document.querySelector('.pictures');
 const templatePreviewPhoto = document.querySelector('#picture').content;
-const similarFragmentPhoto = document.createDocumentFragment();
+const fragmentSimilarPhoto = document.createDocumentFragment();
+photos.forEach(({url, comments, likes, id}) => {
+  const elementPhoto = templatePreviewPhoto.cloneNode(true);
 
-photos.forEach(({url, comments, likes}) => {
-
-  const templateImgPhoto = templatePreviewPhoto.querySelector('.picture__img');
+  const templateImgPhoto = elementPhoto.querySelector('.picture__img');
   templateImgPhoto.src = url;
+  templateImgPhoto.setAttribute('data-id', id);
 
 
-  const templateCommentsPhoto = templatePreviewPhoto.querySelector('.picture__comments');
+  const templateCommentsPhoto = elementPhoto.querySelector('.picture__comments');
   templateCommentsPhoto.textContent = comments.length;
 
 
-  const templateLikesPhoto = templatePreviewPhoto.querySelector('.picture__likes');
+  const templateLikesPhoto = elementPhoto.querySelector('.picture__likes');
   templateLikesPhoto.textContent = likes;
 
-  const elementPhoto = templatePreviewPhoto.cloneNode(true);
-  similarFragmentPhoto.appendChild(elementPhoto);
+  fragmentSimilarPhoto.appendChild(elementPhoto);
 });
-containerPhoto.appendChild(similarFragmentPhoto);
+containerPhoto.appendChild(fragmentSimilarPhoto);
+export {photos};
+
 

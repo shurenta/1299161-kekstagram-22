@@ -1,1 +1,1 @@
-import './generateModalPhoto/modal-photo.js';
+import './modal-photo.js';

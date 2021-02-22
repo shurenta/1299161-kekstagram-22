@@ -1,28 +1,31 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
-import {imgUploadPreview} from './zoom-photo.js';
-const onEffectNone = document.querySelector('#effect-none');
-const onEffectChrome = document.querySelector('#effect-chrome');
-const onEffectSepia = document.querySelector('#effect-sepia');
-const onEffectMarvin = document.querySelector('#effect-marvin');
-const onEffectPhobos = document.querySelector('#effect-phobos');
-const onEffectHeat = document.querySelector('#effect-heat');
+import {imgUploadPreview, resetValueInput} from './zoom-photo.js';
+const effectNone = document.querySelector('#effect-none');
+const effectChrome = document.querySelector('#effect-chrome');
+const effectSepia = document.querySelector('#effect-sepia');
+const effectMarvin = document.querySelector('#effect-marvin');
+const effectPhobos = document.querySelector('#effect-phobos');
+const effectHeat = document.querySelector('#effect-heat');
 const effectLevel = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const onOpenEditor = document.querySelector('#upload-file');
 const onCloseEditor = document.querySelector('#upload-cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
+const effectsList = document.querySelector('.effects__list');
 const body = document.querySelector('body');
 
 //Открытие формы редактирования
-const OpenUploadOverlay = () => {
+const openUploadOverlay = () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
   effectLevel.classList.add('hidden');
   document.addEventListener('keydown', onEditorEscKeydown);
+  resetValueInput();
+  deleteEffect();
 }
-onOpenEditor.addEventListener('click', OpenUploadOverlay);
+onOpenEditor.addEventListener('click', openUploadOverlay);
 
 
 //Закрытие формы редактирования
@@ -42,54 +45,33 @@ const onEditorEscKeydown = (evt) => {
   }
 }
 
+
+//удаление эффектов
 const deleteEffect = () => {
   imgUploadPreview.className = '';
-  imgUploadPreview.style.filter = '';
-  effectLevel.classList.add('hidden');
+  imgUploadPreview.style = '';
 }
-onEffectNone.addEventListener('click', deleteEffect);
+effectNone.addEventListener('click', deleteEffect);
 
 
-
-const addEffectChrome = () => {
-  imgUploadPreview.className = 'effects__preview--chrome';
-  imgUploadPreview.style.filter = '';
-  effectLevel.classList.remove('hidden');
-}
-onEffectChrome.addEventListener('click', addEffectChrome);
-
-
-const addEffectSepia = () => {
-  imgUploadPreview.className = 'effects__preview--sepia';
+//добавление эфектов
+const addEffect = (evt) => {
+  const thisObjekt = evt.target;
+  const nextObjekt = thisObjekt.nextElementSibling;
+  const nameEffect = nextObjekt.querySelector('span');
+  imgUploadPreview.className = nameEffect.className;
+  imgUploadPreview.classList.remove('effects__preview');
   imgUploadPreview.style.filter = '';
   effectLevel.classList.remove('hidden');
 }
-onEffectSepia.addEventListener('click', addEffectSepia);
+effectChrome.addEventListener('click', addEffect);
+effectSepia.addEventListener('click', addEffect);
+effectMarvin.addEventListener('click', addEffect);
+effectPhobos.addEventListener('click', addEffect);
+effectHeat.addEventListener('click', addEffect);
 
 
-const addEffectMarvin = () => {
-  imgUploadPreview.className = 'effects__preview--marvin';
-  imgUploadPreview.style.filter = '';
-  effectLevel.classList.remove('hidden');
-}
-onEffectMarvin.addEventListener('click', addEffectMarvin);
-
-
-const addEffectPhobos = () => {
-  imgUploadPreview.className = 'effects__preview--phobos';
-  imgUploadPreview.style.filter = '';
-  effectLevel.classList.remove('hidden');
-}
-onEffectPhobos.addEventListener('click', addEffectPhobos);
-
-const addEffectHeat = () => {
-  imgUploadPreview.className = 'effects__preview--heat';
-  imgUploadPreview.style.filter = '';
-  effectLevel.classList.remove('hidden');
-}
-onEffectHeat.addEventListener('click', addEffectHeat);
-
-
+//отрисовка слайдера
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -100,95 +82,74 @@ noUiSlider.create(sliderElement, {
   connect: 'lower',
 });
 
-// эффект Chrome
-onEffectChrome.addEventListener('change', () => {
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1,
+//'настройки слайдера для разных эффектов'
+const effects = {
+  chrome: {
+    sliderSettings: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
     },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-  })
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-    effectLevelValue.value = unencoded[handle];
-    if (imgUploadPreview.className === 'effects__preview--chrome') {
-      imgUploadPreview.style.filter ='grayscale(' + Number(effectLevelValue.value) + ')';
-    }
-  });
-});
+    getFilterStyle: (effectValue) => 'grayscale(' + Number(effectValue) + ')',
+  },
 
-//эфект Sepia
-onEffectSepia.addEventListener('change', () => {
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: 0,
-      max: 1,
+  sepia: {
+    sliderSettings: {
+      range: {
+        min: 0,
+        max: 1,
+      },
+      start: 1,
+      step: 0.1,
     },
-    start: 1,
-    step: 0.1,
-    connect: 'lower',
-  })
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-    effectLevelValue.value = unencoded[handle];
-    if (imgUploadPreview.className === 'effects__preview--sepia') {
-      imgUploadPreview.style.filter ='sepia(' + Number(effectLevelValue.value) + ')';
-    }
-  });
-});
+    getFilterStyle: (effectValue) => 'sepia(' + Number(effectValue) + ')',
+  },
 
-
-////Эффект Marvin
-onEffectMarvin.addEventListener('change', () => {
-  if (imgUploadPreview.className === 'effects__preview--marvin') {
-    sliderElement.noUiSlider.updateOptions({
+  marvin: {
+    sliderSettings: {
       range: {
         min: 0,
         max: 100,
       },
       start: 100,
-      step:1,
-    })
-  }
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-    effectLevelValue.value = unencoded[handle];
-    imgUploadPreview.style.filter ='invert(' + Number(effectLevelValue.value) + '%' + ')';
-  });
-});
+      step: 1,
+    },
+    getFilterStyle: (effectValue) => 'invert(' + Number(effectValue) + '%' + ')',
+  },
 
-// ////Эффект Phobos
-onEffectPhobos.addEventListener('change', () => {
-  if (imgUploadPreview.className === 'effects__preview--phobos') {
-    sliderElement.noUiSlider.updateOptions({
+  phobos: {
+    sliderSettings: {
       range: {
         min: 0,
         max: 3,
       },
       start: 3,
-      step:0.1,
-    })
-  }
-  sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
-    effectLevelValue.value = unencoded[handle];
-    imgUploadPreview.style.filter ='blur(' + Number(effectLevelValue.value) + 'px' + ')';
-  });
-});
+      step: 0.1,
+    },
+    getFilterStyle: (effectValue) => 'blur(' + Number(effectValue) + 'px' + ')',
+  },
 
-///Эффект Heat
-onEffectHeat.addEventListener('change', () => {
-  if (imgUploadPreview.className === 'effects__preview--heat') {
-    sliderElement.noUiSlider.updateOptions({
+  heat: {
+    sliderSettings: {
       range: {
-        min: 0,
+        min: 1,
         max: 3,
       },
       start: 3,
-      step:0.1,
-    })
-  }
+      step: 0.1,
+    },
+    getFilterStyle: (effectValue) => 'brightness(' + Number(effectValue) + ')',
+  },
+}
+
+effectsList.addEventListener('change', (evt) => {
+  const effect = evt.target.value;
+  sliderElement.noUiSlider.updateOptions(effects[effect].sliderSettings)
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     effectLevelValue.value = unencoded[handle];
-    imgUploadPreview.style.filter = 'brightness(' + Number(effectLevelValue.value) + ')';
+    imgUploadPreview.style.filter = effects[effect].getFilterStyle(effectLevelValue.value);
   });
 });

@@ -108,7 +108,12 @@ const closeModalPhoto = () => {
 }
 
 const onContainerMiniPhotos = document.querySelector('.pictures');
-onContainerMiniPhotos.addEventListener('click', openModalPhoto);
+
+onContainerMiniPhotos.addEventListener('click', (evt) => {
+  if (evt.target.className === 'picture__img') {
+    openModalPhoto(evt);
+  }
+});
 
 const onButtonCloseModal = document.querySelector('.big-picture__cancel');
 onButtonCloseModal.addEventListener('click', closeModalPhoto);

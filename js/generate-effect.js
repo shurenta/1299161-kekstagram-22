@@ -1,6 +1,7 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
 import {imgUploadPreview, resetValueInput} from './zoom-photo.js';
+import {hashtagInput, commentArea} from './validation-form.js';
 const effectLevel = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
@@ -28,6 +29,8 @@ const closeUploadOverlay = () => {
   imgUploadPreview.style = '';
   resetValueInput();
   sliderElement.noUiSlider.off();
+  hashtagInput.value = '';
+  commentArea.value= '';
 }
 closeEditor.addEventListener('click', closeUploadOverlay);
 
@@ -133,3 +136,4 @@ effectsList.addEventListener('change', (evt) => {
     imgUploadPreview.style.filter = effects[effect].getFilterStyle(effectLevelValue.value);
   });
 });
+export {onEditorEscKeydown};

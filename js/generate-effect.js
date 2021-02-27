@@ -1,7 +1,6 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
 import {imgUploadPreview, resetValueInput} from './zoom-photo.js';
-import {hashtagInput, commentArea} from './validation-form.js';
 const effectLevel = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
@@ -10,6 +9,8 @@ const closeEditor = document.querySelector('#upload-cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const effectsList = document.querySelector('.effects__list');
 const body = document.querySelector('body');
+const hashtagInput = document.querySelector('.text__hashtags');
+const commentArea = document.querySelector('.text__description');
 
 //Открытие формы редактирования
 const openUploadOverlay = () => {

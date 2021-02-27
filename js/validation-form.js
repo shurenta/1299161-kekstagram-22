@@ -41,13 +41,13 @@ hashtagInput.addEventListener('input', () => {
     }
     hashtagInput.setCustomValidity('');
   }
+  loop:
   for (let i = 0; i < hashtagValue.length; i++) {
     for (let k = i+1; k < hashtagValue.length; k++) {
       if (hashtagValue[i] === hashtagValue[k]) {
         hashtagInput.setCustomValidity('дубликат');
-        break;
+        break loop;
       }
-      break;
     }
   }
 
@@ -75,4 +75,3 @@ const addEventKeydownComment = () => {
   document.addEventListener('keydown', onEditorEscKeydown);
 }
 commentArea.addEventListener('blur', addEventKeydownComment);
-export {hashtagInput, commentArea};

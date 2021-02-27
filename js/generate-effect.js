@@ -9,6 +9,8 @@ const closeEditor = document.querySelector('#upload-cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const effectsList = document.querySelector('.effects__list');
 const body = document.querySelector('body');
+const hashtagInput = document.querySelector('.text__hashtags');
+const commentArea = document.querySelector('.text__description');
 
 //Открытие формы редактирования
 const openUploadOverlay = () => {
@@ -28,6 +30,8 @@ const closeUploadOverlay = () => {
   imgUploadPreview.style = '';
   resetValueInput();
   sliderElement.noUiSlider.off();
+  hashtagInput.value = '';
+  commentArea.value= '';
 }
 closeEditor.addEventListener('click', closeUploadOverlay);
 
@@ -133,3 +137,4 @@ effectsList.addEventListener('change', (evt) => {
     imgUploadPreview.style.filter = effects[effect].getFilterStyle(effectLevelValue.value);
   });
 });
+export {onEditorEscKeydown};

@@ -1,27 +1,33 @@
-import {generateRandomPhotos} from './generate-data.js';
+import {getData} from './generate-data.js';
+const fillPhotos = (photos) => {
+  const containerPhoto = document.querySelector('.pictures');
+  const templatePreviewPhoto = document.querySelector('#picture').content;
+  const fragmentSimilarPhoto = document.createDocumentFragment();
+  photos.forEach(({url, comments, likes, id}) => {
+    const elementPhoto = templatePreviewPhoto.cloneNode(true);
 
-const photos = generateRandomPhotos();
-const containerPhoto = document.querySelector('.pictures');
-const templatePreviewPhoto = document.querySelector('#picture').content;
-const fragmentSimilarPhoto = document.createDocumentFragment();
-photos.forEach(({url, comments, likes, id}) => {
-  const elementPhoto = templatePreviewPhoto.cloneNode(true);
-
-  const templateImgPhoto = elementPhoto.querySelector('.picture__img');
-  templateImgPhoto.src = url;
-  templateImgPhoto.setAttribute('data-id', id);
-
-
-  const templateCommentsPhoto = elementPhoto.querySelector('.picture__comments');
-  templateCommentsPhoto.textContent = comments.length;
+    const templateImgPhoto = elementPhoto.querySelector('.picture__img');
+    templateImgPhoto.src = url;
+    templateImgPhoto.setAttribute('data-id', id);
 
 
-  const templateLikesPhoto = elementPhoto.querySelector('.picture__likes');
-  templateLikesPhoto.textContent = likes;
+    const templateCommentsPhoto = elementPhoto.querySelector('.picture__comments');
+    templateCommentsPhoto.textContent = comments.length;
 
-  fragmentSimilarPhoto.appendChild(elementPhoto);
-});
-containerPhoto.appendChild(fragmentSimilarPhoto);
-export {photos};
+
+    const templateLikesPhoto = elementPhoto.querySelector('.picture__likes');
+    templateLikesPhoto.textContent = likes;
+
+    fragmentSimilarPhoto.appendChild(elementPhoto);
+  });
+  containerPhoto.appendChild(fragmentSimilarPhoto);
+  return photos
+}
+
+export const getPhotos = async () => {
+  return await getData().then(fillPhotos);
+}
+
+
 
 

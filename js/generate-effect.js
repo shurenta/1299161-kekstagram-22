@@ -137,4 +137,4 @@ effectsList.addEventListener('change', (evt) => {
     imgUploadPreview.style.filter = effects[effect].getFilterStyle(effectLevelValue.value);
   });
 });
-export {onEditorEscKeydown};
+export {onEditorEscKeydown, closeUploadOverlay};

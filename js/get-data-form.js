@@ -9,21 +9,21 @@ const addErrorMessage = () => {
   main.appendChild(elementError);
   const closeErrorButton = main.querySelector('.error__button');
   closeErrorButton.addEventListener('click', closeErrorModal);
-  document.addEventListener('keydown', OnMessageErrorEscKeydown);
+  document.addEventListener('keydown', onMessageErrorEscKeydown);
 }
 
 //закрывает окно ошибки при клике на кнопку
 const closeErrorModal = () => {
   const sectionError = document.querySelector('.error');
   sectionError.remove();
-  document.removeEventListener('keydown', OnMessageErrorEscKeydown);
+  document.removeEventListener('keydown', onMessageErrorEscKeydown);
 }
 
 //закрывает оконо ошибки отправки при нажатии Esc
-const OnMessageErrorEscKeydown = (evt) => {
+const onMessageErrorEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     closeErrorModal();
-    document.removeEventListener('keydown', OnMessageErrorEscKeydown);
+    document.removeEventListener('keydown', onMessageErrorEscKeydown);
   }
 }
 
@@ -35,26 +35,26 @@ const addSuccessMessage = () => {
   main.appendChild(elementSuccess);
   const closeSuccessButton = main.querySelector('.success__button');
   closeSuccessButton.addEventListener('click', closeSuccessModal);
-  document.addEventListener('keydown', OnMessageSuccessEscKeydown);
+  document.addEventListener('keydown', onMessageSuccessEscKeydown);
 }
 
 //закрывает окно успешной отправки при клике на кнопку
 const closeSuccessModal = () => {
   const sectionSuccess = document.querySelector('.success');
   sectionSuccess.remove();
-  document.removeEventListener('keydown', OnMessageSuccessEscKeydown);
+  document.removeEventListener('keydown', onMessageSuccessEscKeydown);
 }
 
 
 //закрывает коно успешной отправки при нажатии Esc
-const OnMessageSuccessEscKeydown = (evt) => {
+const onMessageSuccessEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
     closeSuccessModal();
-    document.removeEventListener('keydown', OnMessageSuccessEscKeydown);
+    document.removeEventListener('keydown', onMessageSuccessEscKeydown);
   }
 }
 // закрывает окно сообщения при клике в любой области
-main.onclick = (evt) => {
+const closeModalMessage = (evt) => {
   if (evt.target.className === 'error') {
     closeErrorModal();
   }
@@ -62,6 +62,7 @@ main.onclick = (evt) => {
     closeSuccessModal();
   }
 }
+main.addEventListener('click', closeModalMessage);
 
 
 

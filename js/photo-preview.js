@@ -24,8 +24,8 @@ const fillPhotos = (photos) => {
   return photos
 }
 
-export const getPhotos = async () => {
-  return await getData().then(fillPhotos);
+export const getPhotos = () => {
+  return getData().then(fillPhotos);
 }
 
 

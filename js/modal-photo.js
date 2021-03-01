@@ -1,13 +1,38 @@
 import './photo-preview.js';
-import {photos} from './photo-preview.js';
+// import {photos} from './photo-preview.js';
 import {isEscEvent} from './util.js';
+import {getPhotos} from './photo-preview.js';
+getPhotos().then((photos) => {
+  //ищет id элемента по которому кликнули
+  const getPhoto = (evt) => {
+    const id = evt.target.dataset.id;
+    return photos.find(img => img.id === Number(id));
+  }
 
-//ищет id элемента по которому кликнули
-const getPhoto = (evt) => {
-  const id = evt.target.dataset.id;
-  return photos.find(img => img.id === Number(id));
-}
-
+  //открывает модольное окно
+  const openModalPhoto = (evt) => {
+    const photo = getPhoto(evt);
+    renderBigPhoto(photo);
+    const modalPhoto = document.querySelector('.big-picture');
+    const commentCount = modalPhoto.querySelector('.social__comment-count');
+    const commentLoader = modalPhoto.querySelector('.comments-loader');
+    const body = document.querySelector('body');
+    modalPhoto.classList.remove('hidden');
+    commentCount.classList.add('hidden');
+    commentLoader.classList.add('hidden');
+    body.classList.add('modal-open');
+    renderQuantityLikesBigPhoto(evt);
+    renderQuantityCommentsBigPhoto(photo);
+    renderDataCommentsBigPhoto(photo);
+    document.addEventListener('keydown', onPopupEscKeydown);
+  }
+  const onContainerMiniPhotos = document.querySelector('.pictures');
+  onContainerMiniPhotos.addEventListener('click', (evt) => {
+    if (evt.target.className === 'picture__img') {
+      openModalPhoto(evt);
+    }
+  });
+})
 
 //подставляет фото и описание
 const renderBigPhoto = (photo) => {
@@ -70,27 +95,6 @@ const onPopupEscKeydown = (evt) => {
   }
 }
 
-
-
-//открывает модольное окно
-const openModalPhoto = (evt) => {
-  const photo = getPhoto(evt);
-  renderBigPhoto(photo);
-  const modalPhoto = document.querySelector('.big-picture');
-  const commentCount = modalPhoto.querySelector('.social__comment-count');
-  const commentLoader = modalPhoto.querySelector('.comments-loader');
-  const body = document.querySelector('body');
-  modalPhoto.classList.remove('hidden');
-  commentCount.classList.add('hidden');
-  commentLoader.classList.add('hidden');
-  body.classList.add('modal-open');
-  renderQuantityLikesBigPhoto(evt);
-  renderQuantityCommentsBigPhoto(photo);
-  renderDataCommentsBigPhoto(photo);
-  document.addEventListener('keydown', onPopupEscKeydown);
-}
-
-
 //очищает данные коментариев после закртия поапа
 const clearDataComments = () => {
   commentsList.innerHTML = '';
@@ -106,14 +110,5 @@ const closeModalPhoto = () => {
   document.removeEventListener('keydown', onPopupEscKeydown);
   clearDataComments();
 }
-
-const onContainerMiniPhotos = document.querySelector('.pictures');
-
-onContainerMiniPhotos.addEventListener('click', (evt) => {
-  if (evt.target.className === 'picture__img') {
-    openModalPhoto(evt);
-  }
-});
-
 const onButtonCloseModal = document.querySelector('.big-picture__cancel');
 onButtonCloseModal.addEventListener('click', closeModalPhoto);

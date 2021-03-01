@@ -16,38 +16,46 @@ hashtagInput.addEventListener('input', () => {
     const regex = /^#[a-zA-Z0-9]+/;
     if (valueLength < MIN_NAME_HASHTAG) {
       hashtagInput.setCustomValidity('Ещё ' + (MIN_NAME_HASHTAG - valueLength) +' симв.');
+      hashtagInput.style.borderColor = 'red';
       break;
     }
-
+    hashtagInput.style.borderColor = 'black';
     if (hashteg[0] !== '#') {
       hashtagInput.setCustomValidity('Имя должно начинаться с #');
+      hashtagInput.style.borderColor = 'red';
       break;
     }
-
+    hashtagInput.style.borderColor = 'black';
     if (!regex.test(hashteg)) {
       hashtagInput.setCustomValidity('Должны быть только цифры или буквы');
+      hashtagInput.style.borderColor = 'red';
       break;
 
     }
 
     if (hashteg.length > MAX_NAME_HASHTAG) {
       hashtagInput.setCustomValidity('Удалите лишние ' + (hashteg.length - MAX_NAME_HASHTAG) +' симв.');
+      hashtagInput.style.borderColor = 'red';
       break;
     }
-
+    hashtagInput.style.borderColor = 'black';
     if (hashtagValue.length > 5) {
       hashtagInput.setCustomValidity('может быть только 5ть хэштегов');
+      hashtagInput.style.borderColor = 'red';
       break;
     }
+    hashtagInput.style.borderColor = 'black';
     hashtagInput.setCustomValidity('');
   }
   loop:
   for (let i = 0; i < hashtagValue.length; i++) {
     for (let k = i+1; k < hashtagValue.length; k++) {
       if (hashtagValue[i] === hashtagValue[k]) {
+        hashtagInput.style.borderColor = 'red';
         hashtagInput.setCustomValidity('дубликат');
         break loop;
       }
+      hashtagInput.style.borderColor = 'black';
     }
   }
 

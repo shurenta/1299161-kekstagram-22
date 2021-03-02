@@ -24,10 +24,11 @@ const fillPhotos = (photos) => {
   return photos
 }
 
+export {fillPhotos};
 export const getPhotos = () => {
   return getData().then(fillPhotos);
 }
 
 
-
-
+// const photoPrewiew = document.querySelectorAll('.picture');
+//   console.log(photoPrewiew);

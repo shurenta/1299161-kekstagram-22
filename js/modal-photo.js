@@ -1,5 +1,4 @@
 import './photo-preview.js';
-// import {photos} from './photo-preview.js';
 import {isEscEvent} from './util.js';
 import {getPhotos} from './photo-preview.js';
 getPhotos().then((photos) => {

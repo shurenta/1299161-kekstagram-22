@@ -1,8 +1,7 @@
 import './photo-preview.js';
-// import {photos} from './photo-preview.js';
 import {isEscEvent} from './util.js';
-import {getPhotos} from './photo-preview.js';
-getPhotos().then((photos) => {
+
+const generateModalPhoto = (photos) => {
   //ищет id элемента по которому кликнули
   const getPhoto = (evt) => {
     const id = evt.target.dataset.id;
@@ -32,7 +31,7 @@ getPhotos().then((photos) => {
       openModalPhoto(evt);
     }
   });
-})
+}
 
 //подставляет фото и описание
 const renderBigPhoto = (photo) => {
@@ -112,3 +111,4 @@ const closeModalPhoto = () => {
 }
 const onButtonCloseModal = document.querySelector('.big-picture__cancel');
 onButtonCloseModal.addEventListener('click', closeModalPhoto);
+export {generateModalPhoto}

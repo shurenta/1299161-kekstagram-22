@@ -1,4 +1,3 @@
-import {getData} from './generate-data.js';
 const fillPhotos = (photos) => {
   const containerPhoto = document.querySelector('.pictures');
   const templatePreviewPhoto = document.querySelector('#picture').content;
@@ -21,13 +20,5 @@ const fillPhotos = (photos) => {
     fragmentSimilarPhoto.appendChild(elementPhoto);
   });
   containerPhoto.appendChild(fragmentSimilarPhoto);
-  return photos
 }
-
-export const getPhotos = () => {
-  return getData().then(fillPhotos);
-}
-
-
-
-
+export {fillPhotos};

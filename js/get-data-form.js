@@ -90,6 +90,7 @@ const setUserFormSubmit = (onSuccess) => {
         }
       })
       .catch(() => {
+        addErrorMessage();
         closeUploadOverlay();
       });
   });

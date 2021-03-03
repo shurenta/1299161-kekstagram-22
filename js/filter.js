@@ -1,5 +1,6 @@
+/* global _:readonly */
 import {fillPhotos} from './photo-preview.js';
-
+const ACTIVE_CLASS = 'img-filters__button--active';
 
 const DeleteMiniPhoto = () => {
   const miniPhoto = document.querySelectorAll('.picture');
@@ -9,44 +10,48 @@ const DeleteMiniPhoto = () => {
 }
 
 const initFilters = (photos) => {
-  const filterRandom = document.querySelector('#filter-random');
-  const filterDefault = document.querySelector('#filter-default');
-  const filterDiscussed = document.querySelector('#filter-discussed');
-
-
+  const filtersButton = document.querySelectorAll('.img-filters__button')
   const getRandomPhoto = () => {
-    filterRandom.classList.add('img-filters__button--active');
-    filterDiscussed.classList.remove('img-filters__button--active');
-    filterDefault.classList.remove('img-filters__button--active');
     const randomPhoto = photos.sort(() => {
       return 0.5 - Math.random();
     });
     DeleteMiniPhoto();
     fillPhotos(randomPhoto.slice(photos,10));
-    // _.debounce(() => DeleteMiniPhoto(),RERENDER_DELAY);
   }
-  filterRandom.addEventListener('click', getRandomPhoto);
 
 
   const getDefaultPhoto = () => {
-    filterRandom.classList.remove('img-filters__button--active');
-    filterDiscussed.classList.remove('img-filters__button--active');
-    filterDefault.classList.add('img-filters__button--active');
     DeleteMiniPhoto();
     fillPhotos(photos);
   }
-  filterDefault.addEventListener('click', getDefaultPhoto);
 
 
   const sortCommentsPhoto = () => {
-    filterRandom.classList.remove('img-filters__button--active');
-    filterDefault.classList.remove('img-filters__button--active');
-    filterDiscussed.classList.add('img-filters__button--active');
     DeleteMiniPhoto();
     photos.sort((a, b) => a.comments < b.comments ? 1 : -1);
     fillPhotos(photos);
   }
-  filterDiscussed.addEventListener('click', sortCommentsPhoto);
-}
+  const renderFilteredPhotos = _.debounce((evt) => {
+    if (evt.target.id === 'filter-random') {
+      getRandomPhoto();
+    }
 
-export {initFilters};
+    if (evt.target.id === 'filter-discussed') {
+      sortCommentsPhoto();
+    }
+
+    if (evt.target.id === 'filter-default') {
+      getDefaultPhoto();
+    }
+
+  }, 500)
+
+  filtersButton.forEach((filterButton) => {
+    filterButton.addEventListener('click', (evt) => {
+      document.querySelector(`.${ACTIVE_CLASS}`).classList.remove(ACTIVE_CLASS)
+      filterButton.classList.add(ACTIVE_CLASS)
+      renderFilteredPhotos(evt);
+    })
+  })
+}
+export {initFilters}

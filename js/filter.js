@@ -1,9 +1,9 @@
 /* global _:readonly */
 import {fillPhotos} from './photo-preview.js';
 const ACTIVE_CLASS = 'img-filters__button--active';
-const FILTER_RANDOM = document.querySelector('#filter-random');
-const FILTER_DISCUSSED = document.querySelector('#filter-discussed');
-const FILTER_DEFAULT = document.querySelector('#filter-default');
+const FILTER_RANDOM = 'filter-random';
+const FILTER_DISCUSSED = 'filter-discussed';
+const FILTER_DEFAULT = 'filter-default';
 
 const deleteMiniPhoto = () => {
   const miniPhoto = document.querySelectorAll('.picture');
@@ -38,7 +38,7 @@ const initFilters = (photos) => {
   }
 
   const renderFilteredPhotos = _.debounce((evt) => {
-    switch (evt.target) {
+    switch (evt.target.id) {
       case  FILTER_RANDOM:
         return getRandomPhoto();
       case FILTER_DISCUSSED:

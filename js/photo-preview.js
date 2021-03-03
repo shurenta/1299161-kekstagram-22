@@ -20,6 +20,5 @@ const fillPhotos = (photos) => {
     fragmentSimilarPhoto.appendChild(elementPhoto);
   });
   containerPhoto.appendChild(fragmentSimilarPhoto);
-  return photos
 }
 export {fillPhotos};

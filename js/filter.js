@@ -1,49 +1,51 @@
 /* global _:readonly */
 import {fillPhotos} from './photo-preview.js';
 const ACTIVE_CLASS = 'img-filters__button--active';
+const FILTER_RANDOM = document.querySelector('#filter-random');
+const FILTER_DISCUSSED = document.querySelector('#filter-discussed');
+const FILTER_DEFAULT = document.querySelector('#filter-default');
 
-const DeleteMiniPhoto = () => {
+const deleteMiniPhoto = () => {
   const miniPhoto = document.querySelectorAll('.picture');
-  for (let i = 0; i < miniPhoto.length; i++) {
-    miniPhoto[i].parentNode.removeChild(miniPhoto[i]);
-  }
+  miniPhoto.forEach((miniPhoto) => {
+    miniPhoto.parentNode.removeChild(miniPhoto);
+  })
 }
 
 const initFilters = (photos) => {
   const filtersButton = document.querySelectorAll('.img-filters__button')
   const getRandomPhoto = () => {
-    const randomPhoto = photos.sort(() => {
+    const photosCopyRandom = photos.filter(() => 1)
+    photosCopyRandom.sort(() => {
       return 0.5 - Math.random();
     });
-    DeleteMiniPhoto();
-    fillPhotos(randomPhoto.slice(photos,10));
+    deleteMiniPhoto();
+    fillPhotos(photosCopyRandom.slice(photosCopyRandom,10));
   }
 
 
   const getDefaultPhoto = () => {
-    DeleteMiniPhoto();
+    deleteMiniPhoto();
     fillPhotos(photos);
   }
 
 
   const sortCommentsPhoto = () => {
-    DeleteMiniPhoto();
-    photos.sort((a, b) => a.comments < b.comments ? 1 : -1);
-    fillPhotos(photos);
+    deleteMiniPhoto();
+    const photosCopy = photos.filter(() => 1)
+    photosCopy.sort((a, b) => a.comments < b.comments ? 1 : -1);
+    fillPhotos(photosCopy);
   }
+
   const renderFilteredPhotos = _.debounce((evt) => {
-    if (evt.target.id === 'filter-random') {
-      getRandomPhoto();
+    switch (evt.target) {
+      case  FILTER_RANDOM:
+        return getRandomPhoto();
+      case FILTER_DISCUSSED:
+        return sortCommentsPhoto();
+      case FILTER_DEFAULT:
+        return getDefaultPhoto();
     }
-
-    if (evt.target.id === 'filter-discussed') {
-      sortCommentsPhoto();
-    }
-
-    if (evt.target.id === 'filter-default') {
-      getDefaultPhoto();
-    }
-
   }, 500)
 
   filtersButton.forEach((filterButton) => {

@@ -13,6 +13,8 @@ const deleteMiniPhoto = () => {
 }
 
 const initFilters = (photos) => {
+  const showFilter = document.querySelector('.img-filters--inactive');
+  showFilter.classList.remove('img-filters--inactive');
   const filtersButton = document.querySelectorAll('.img-filters__button')
   const getRandomPhoto = () => {
     const photosCopyRandom = photos.filter(() => 1)

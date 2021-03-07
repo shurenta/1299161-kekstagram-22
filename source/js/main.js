@@ -1,6 +1,7 @@
 import './validation-form.js';
 import './get-data-form.js';
 import './filter.js';
+import './dawnload-photo.js';
 import {getData} from './generate-data.js';
 import {initFilters} from './filter.js';
 import {fillPhotos} from './photo-preview.js';

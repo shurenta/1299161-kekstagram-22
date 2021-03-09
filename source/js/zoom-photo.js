@@ -12,34 +12,34 @@ scaleControlBigger.disabled = true;
 
 //увиличивает или уменьшает фото
 const transform = () => {
-  imgUploadPreview.style.transform = 'scale(' + numberValue / SCALE_CONTROL_MAX + ')';
+  imgUploadPreview.style.transform = `scale(${numberValue / SCALE_CONTROL_MAX})`;
   scaleControlSmaller.disabled = numberValue <= SCALE_CONTROL_MIN;
   scaleControlBigger.disabled = numberValue >= SCALE_CONTROL_MAX;
-  scaleControlValue.value = numberValue + '%';
+  scaleControlValue.value = `${numberValue} %`;
 }
 
 // Уменьшает значение
-const setScaleMinImg = () => {
+const onButtonSmallerClick = () => {
   scaleControlBigger.disabled = false;
   numberValue = numberValue - SCALE_CONTROL_STEP;
   transform();
 }
 
 // Увеличивает значение
-const setScaleMaxImg = () => {
+const onButtonBiggerClick = () => {
   scaleControlSmaller.disabled = false;
   numberValue = numberValue +  SCALE_CONTROL_STEP;
   transform();
 }
 
-//сбрасывает значение импута и кнопок к ночальному состоянию при открии окна
+//сбрасывает значение импута и кнопок к ночальному состоянию при закрытии окна
 const resetValueInput = () => {
-  scaleControlValue.value = SCALE_CONTROL_MAX + '%';
+  scaleControlValue.value = `${SCALE_CONTROL_MAX} %`;
   numberValue = Number.parseInt(scaleControlValue.value);
   scaleControlSmaller.disabled = false;
   scaleControlBigger.disabled = true;
 }
 
-scaleControlSmaller.addEventListener('click', setScaleMinImg);
-scaleControlBigger.addEventListener('click', setScaleMaxImg);
-export {imgUploadPreview, resetValueInput, scaleControlValue};
+scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
+scaleControlBigger.addEventListener('click', onButtonBiggerClick);
+export {resetValueInput};

@@ -1,39 +1,44 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
-import {imgUploadPreview, resetValueInput} from './zoom-photo.js';
+import {resetValueInput} from './zoom-photo.js';
 const effectLevel = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
-const openEditor = document.querySelector('#upload-file');
-const closeEditor = document.querySelector('#upload-cancel');
+const inputEditor = document.querySelector('#upload-file');
+const buttonEditor = document.querySelector('#upload-cancel');
 const imgUploadOverlay = document.querySelector('.img-upload__overlay');
 const effectsList = document.querySelector('.effects__list');
-const body = document.querySelector('body');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
+const imgUploadPreview = document.querySelector('img');
 
 //Открытие формы редактирования
 const openUploadOverlay = () => {
   imgUploadOverlay.classList.remove('hidden');
-  body.classList.add('modal-open');
+  document.body.classList.add('modal-open');
   effectLevel.classList.add('hidden');
   document.addEventListener('keydown', onEditorEscKeydown);
 }
-openEditor.addEventListener('click', openUploadOverlay);
+inputEditor.addEventListener('click', openUploadOverlay);
 
 
 //Закрытие формы редактирования
 const closeUploadOverlay = () => {
+  const containerUpload = document.querySelector('.img-upload__preview');
+  const imgPreview = containerUpload.querySelector('img');
+  imgPreview.src = 'img/upload-default-image.jpg';
+  const effectNone = document.querySelector('#effect-none');
+  effectNone.checked = true;
   imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditorEscKeydown);
   imgUploadPreview.style = '';
   resetValueInput();
   sliderElement.noUiSlider.off();
   hashtagInput.value = '';
-  commentArea.value= '';
+  commentArea.value = '';
 }
-closeEditor.addEventListener('click', closeUploadOverlay);
+buttonEditor.addEventListener('click', closeUploadOverlay);
 
 //Закрытие окна клавишей Esc
 const onEditorEscKeydown = (evt) => {
@@ -59,7 +64,6 @@ const effects = {
     sliderSettings: {
 
     },
-    getFilterStyle: () => imgUploadPreview.style = '',
   },
 
   chrome: {
@@ -126,11 +130,15 @@ const effects = {
 effectsList.addEventListener('change', (evt) => {
   sliderElement.noUiSlider.off();
   const effect = evt.target.value;
-  sliderElement.noUiSlider.updateOptions(effects[effect].sliderSettings)
-  effectLevel.classList.remove('hidden');
+
   if (effect === 'none') {
     effectLevel.classList.add('hidden');
+    imgUploadPreview.style = '';
+    return
   }
+
+  sliderElement.noUiSlider.updateOptions(effects[effect].sliderSettings)
+  effectLevel.classList.remove('hidden');
 
   sliderElement.noUiSlider.on('update', (_, handle, unencoded) => {
     effectLevelValue.value = unencoded[handle];

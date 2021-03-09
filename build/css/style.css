@@ -1416,3 +1416,14 @@ main {
 .hidden {
   display: none;
 }
+
+
+.error-img__download {
+  width: 100%;
+  text-align: center;
+  color:  #FF0000;
+  background-color: #FFFF00;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+}

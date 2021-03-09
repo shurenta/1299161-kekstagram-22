@@ -1,68 +1,50 @@
 import {closeUploadOverlay} from './generate-effect.js';
 import {isEscEvent} from './util.js';
 const main = document.querySelector('main');
-
-//добовлят сообщение об ошибке и закрвает его.
-const addErrorMessage = () => {
-  const templateError = document.querySelector('#error').content;
-  const elementError = templateError.cloneNode(true);
-  main.appendChild(elementError);
-  const closeErrorButton = main.querySelector('.error__button');
-  closeErrorButton.addEventListener('click', closeErrorModal);
-  document.addEventListener('keydown', onMessageErrorEscKeydown);
+const Status = {
+  success: 'success',
+  error: 'error',
 }
+//добовлят сообщение со статусом загрузске фото
+const showStatusModal = (type = Status.success) => {
+  const templateModal = document.querySelector(`#${type}`).content
+  const elementModal = templateModal.cloneNode(true)
+  main.appendChild(elementModal)
 
-//закрывает окно ошибки при клике на кнопку
-const closeErrorModal = () => {
-  const sectionError = document.querySelector('.error');
-  sectionError.remove();
-  document.removeEventListener('keydown', onMessageErrorEscKeydown);
-}
+  const closeModalButton = main.querySelector(`.${type}__button`)
 
-//закрывает оконо ошибки отправки при нажатии Esc
-const onMessageErrorEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    closeErrorModal();
-    document.removeEventListener('keydown', onMessageErrorEscKeydown);
+  //закрывает окно сообщения при клике на кнопку
+  const closeStatusModal = () => {
+    const sectionModal = document.querySelector(`.${type}`)
+    sectionModal.remove()
+
+    document.removeEventListener('keydown', onStatusModalEscKeydown)
+    main.removeEventListener('click', onStatusModalOutsideClick)
+    closeModalButton.removeEventListener('click', onStatusModalCloseClick)
   }
-}
 
-
-//добовляет окно успешной отправки
-const addSuccessMessage = () => {
-  const templateSuccess = document.querySelector('#success').content;
-  const elementSuccess = templateSuccess.cloneNode(true);
-  main.appendChild(elementSuccess);
-  const closeSuccessButton = main.querySelector('.success__button');
-  closeSuccessButton.addEventListener('click', closeSuccessModal);
-  document.addEventListener('keydown', onMessageSuccessEscKeydown);
-}
-
-//закрывает окно успешной отправки при клике на кнопку
-const closeSuccessModal = () => {
-  const sectionSuccess = document.querySelector('.success');
-  sectionSuccess.remove();
-  document.removeEventListener('keydown', onMessageSuccessEscKeydown);
-}
-
-
-//закрывает коно успешной отправки при нажатии Esc
-const onMessageSuccessEscKeydown = (evt) => {
-  if (isEscEvent(evt)) {
-    closeSuccessModal();
-    document.removeEventListener('keydown', onMessageSuccessEscKeydown);
+  //закрывает оконо сообщения отправки при нажатии Esc
+  const onStatusModalEscKeydown = (evt, type) => {
+    if (isEscEvent(evt)) {
+      closeStatusModal(type)
+    }
   }
-}
-// закрывает окно сообщения при клике в любой области
-const closeModalMessage = (evt) => {
-  if (evt.target.className === 'error') {
-    closeErrorModal();
+
+  // закрывает окно сообщения при клике в любой области
+  const onStatusModalOutsideClick = (evt) => {
+    closeStatusModal(evt.target.className)
   }
-  if (evt.target.className === 'success') {
-    closeSuccessModal();
+
+  // закрывает окно сообщения при клике в любой области
+  const onStatusModalCloseClick = () => {
+    closeStatusModal()
   }
+
+  main.addEventListener('click', onStatusModalOutsideClick)
+  closeModalButton.addEventListener('click', onStatusModalCloseClick)
+  document.addEventListener('keydown', onStatusModalEscKeydown)
 }
-main.addEventListener('click', closeModalMessage);
+
 
 
 
@@ -82,15 +64,15 @@ const setUserFormSubmit = (onSuccess) => {
     )
       .then((response) => {
         if (response.ok) {
-          addSuccessMessage();
+          showStatusModal(Status.success);
           onSuccess();
         } else {
-          addErrorMessage();
+          showStatusModal(Status.error);
           closeUploadOverlay();
         }
       })
       .catch(() => {
-        addErrorMessage();
+        showStatusModal(Status.error);
         closeUploadOverlay();
       });
   });

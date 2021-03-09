@@ -1,12 +1,10 @@
+const NAME_ESC_ONE = 'Escape';
+const NAME_ESC_TWO = 'Esc';
+
 //проверка нажатия на клавишу Esc
 const isEscEvent = (evt) => {
-  return evt.key === ('Escape' || 'Esc');
+  return evt.key === (NAME_ESC_ONE || NAME_ESC_TWO);
 };
 
 
-// Функция  возвращающая случайное значение
-let getRandomArrayElement = (array) => {
-  let randomNumber = Math.floor(Math.random() * array.length);
-  return array[randomNumber];
-}
-export {isEscEvent, getRandomArrayElement};
+export {isEscEvent};

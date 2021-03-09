@@ -13,26 +13,24 @@ const deleteMiniPhoto = () => {
 }
 
 const initFilters = (photos) => {
-  const showFilter = document.querySelector('.img-filters--inactive');
-  showFilter.classList.remove('img-filters--inactive');
+  const filter = document.querySelector('.img-filters--inactive');
+  filter.classList.remove('img-filters--inactive');
   const filtersButton = document.querySelectorAll('.img-filters__button')
-  const getRandomPhoto = () => {
+  const renderRandomPhotos = () => {
     const photosCopyRandom = photos.filter(() => 1)
-    photosCopyRandom.sort(() => {
-      return 0.5 - Math.random();
-    });
+    photosCopyRandom.sort(() => 0.5 - Math.random());
     deleteMiniPhoto();
     fillPhotos(photosCopyRandom.slice(photosCopyRandom,10));
   }
 
 
-  const getDefaultPhoto = () => {
+  const renderDefaultPhotos = () => {
     deleteMiniPhoto();
     fillPhotos(photos);
   }
 
 
-  const sortCommentsPhoto = () => {
+  const renderMostCommentedPhotos = () => {
     deleteMiniPhoto();
     const photosCopy = photos.filter(() => 1)
     photosCopy.sort((a, b) => a.comments < b.comments ? 1 : -1);
@@ -41,12 +39,12 @@ const initFilters = (photos) => {
 
   const renderFilteredPhotos = _.debounce((evt) => {
     switch (evt.target.id) {
-      case  FILTER_RANDOM:
-        return getRandomPhoto();
+      case FILTER_RANDOM:
+        return renderRandomPhotos();
       case FILTER_DISCUSSED:
-        return sortCommentsPhoto();
+        return renderMostCommentedPhotos();
       case FILTER_DEFAULT:
-        return getDefaultPhoto();
+        return renderDefaultPhotos();
     }
   }, 500)
 

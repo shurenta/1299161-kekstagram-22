@@ -1,24 +1,24 @@
 const fillPhotos = (photos) => {
   const containerPhoto = document.querySelector('.pictures');
-  const templatePreviewPhoto = document.querySelector('#picture').content;
-  const fragmentSimilarPhoto = document.createDocumentFragment();
+  const previewPhoto = document.querySelector('#picture').content;
+  const similarPhoto = document.createDocumentFragment();
   photos.forEach(({url, comments, likes, id}) => {
-    const elementPhoto = templatePreviewPhoto.cloneNode(true);
+    const photo = previewPhoto.cloneNode(true);
 
-    const templateImgPhoto = elementPhoto.querySelector('.picture__img');
-    templateImgPhoto.src = url;
-    templateImgPhoto.setAttribute('data-id', id);
-
-
-    const templateCommentsPhoto = elementPhoto.querySelector('.picture__comments');
-    templateCommentsPhoto.textContent = comments.length;
+    const imgPhoto = photo.querySelector('.picture__img');
+    imgPhoto.src = url;
+    imgPhoto.setAttribute('data-id', id);
 
 
-    const templateLikesPhoto = elementPhoto.querySelector('.picture__likes');
-    templateLikesPhoto.textContent = likes;
+    const commentsPhoto = photo.querySelector('.picture__comments');
+    commentsPhoto.textContent = comments.length;
 
-    fragmentSimilarPhoto.appendChild(elementPhoto);
+
+    const likesPhoto = photo.querySelector('.picture__likes');
+    likesPhoto.textContent = likes;
+
+    similarPhoto.appendChild(photo);
   });
-  containerPhoto.appendChild(fragmentSimilarPhoto);
+  containerPhoto.appendChild(similarPhoto);
 }
 export {fillPhotos};

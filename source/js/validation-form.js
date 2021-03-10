@@ -11,9 +11,13 @@ const LATTICE = '#';
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
 
-hashtagInput.addEventListener('input', () => {
-  const valueLength = hashtagInput.value.length;
+const generateValidation = () => {
+    const valueLength = hashtagInput.value.length;
   const hashtagValue = hashtagInput.value.toLowerCase().split(' ');
+  if (hashtagInput.value === '') {
+    hashtagInput.setCustomValidity('');
+    return hashtagInput.style.borderColor = VALID;
+  }
   for (let hashtag of hashtagValue) {
     const regex = /^#[a-zA-Z0-9]+/;
     if (valueLength < MIN_NAME_HASHTAG) {
@@ -55,13 +59,10 @@ hashtagInput.addEventListener('input', () => {
   if (hashtagInput.validity.valid) {
     hashtagInput.style.borderColor = VALID;
   }
-  if (hashtagInput.value === '') {
-    hashtagInput.setCustomValidity('');
-    hashtagInput.style.borderColor = VALID;
-  }
   hashtagInput.reportValidity();
-});
+}
 
+hashtagInput.addEventListener('input', generateValidation);
 
 const onInputHashtagFocus = () => {
   document.removeEventListener('keydown', onEditorEscKeydown);
@@ -83,3 +84,21 @@ const onInputCommentBlur = () => {
   document.addEventListener('keydown', onEditorEscKeydown);
 }
 commentArea.addEventListener('blur', onInputCommentBlur);
+
+const addEventForm = () => {
+  hashtagInput.addEventListener('input', generateValidation);
+  commentArea.addEventListener('blur', onInputCommentBlur);
+  commentArea.addEventListener('focus', onInputCommentFocus);
+  hashtagInput.addEventListener('blur', onInputHashtagBlur);
+  hashtagInput.addEventListener('focus', onInputHashtagFocus);
+}
+
+const removeEventForm =() => {
+  hashtagInput.removeEventListener('input', generateValidation);
+  commentArea.removeEventListener('blur', onInputCommentBlur);
+  commentArea.removeEventListener('focus', onInputCommentFocus);
+  hashtagInput.removeEventListener('blur', onInputHashtagBlur);
+  hashtagInput.removeEventListener('focus', onInputHashtagFocus);
+}
+
+export {generateValidation, addEventForm, removeEventForm};

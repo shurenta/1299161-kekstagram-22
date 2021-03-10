@@ -7,7 +7,7 @@ const fillPhotos = (photos) => {
 
     const imgPhoto = photo.querySelector('.picture__img');
     imgPhoto.src = url;
-    imgPhoto.setAttribute('data-id', id);
+    imgPhoto.dataset.id = id;
 
 
     const commentsPhoto = photo.querySelector('.picture__comments');

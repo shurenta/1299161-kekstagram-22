@@ -1,7 +1,7 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const fileDownload = document.querySelector('#upload-file');
 
-const downoladFile = () => {
+const onInputFileChange = () => {
   const containerImage = document.querySelector('.img-upload__preview');
   const img = containerImage.querySelector('img');
   const imgFile = fileDownload.files[0];
@@ -9,11 +9,11 @@ const downoladFile = () => {
   const matches = FILE_TYPES.some((it) => imgName.endsWith(it));
   if (matches) {
     const reader = new FileReader();
-    const loadPhoto = () => {
+    const onReaderLoad = () => {
       img.src = reader.result;
     }
-    reader.addEventListener('load', loadPhoto);
+    reader.addEventListener('load', onReaderLoad);
     reader.readAsDataURL(imgFile);
   }
 }
-fileDownload.addEventListener('change', downoladFile);
+fileDownload.addEventListener('change', onInputFileChange);

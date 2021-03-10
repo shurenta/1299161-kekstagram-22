@@ -17,7 +17,7 @@ const initFilters = (photos) => {
   filter.classList.remove('img-filters--inactive');
   const filtersButton = document.querySelectorAll('.img-filters__button')
   const renderRandomPhotos = () => {
-    const photosCopyRandom = photos.filter(() => 1)
+    const photosCopyRandom = photos.filter(() => 1);
     photosCopyRandom.sort(() => 0.5 - Math.random());
     deleteMiniPhoto();
     fillPhotos(photosCopyRandom.slice(photosCopyRandom,10));

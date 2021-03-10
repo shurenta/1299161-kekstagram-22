@@ -1,6 +1,9 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
-import {resetValueInput} from './zoom-photo.js';
+import {resetValueInput, removeEventZoom, addEventZoom} from './zoom-photo.js';
+import {generateValidation, addEventForm, removeEventForm} from './validation-form.js';
+import './download-file.js';
+const IMG_SRC = 'img/upload-default-image.jpg';
 const effectLevel = document.querySelector('.effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
@@ -13,37 +16,44 @@ const commentArea = document.querySelector('.text__description');
 const imgUploadPreview = document.querySelector('img');
 
 //Открытие формы редактирования
-const openUploadOverlay = () => {
+const onInputFileClick = () => {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   effectLevel.classList.add('hidden');
   document.addEventListener('keydown', onEditorEscKeydown);
+  addEventForm();
+  addEventZoom();
+  buttonEditor.addEventListener('click', onButtonUploadClick);
 }
-inputEditor.addEventListener('click', openUploadOverlay);
+inputEditor.addEventListener('click', onInputFileClick);
 
 
 //Закрытие формы редактирования
-const closeUploadOverlay = () => {
+const onButtonUploadClick = () => {
   const containerUpload = document.querySelector('.img-upload__preview');
   const imgPreview = containerUpload.querySelector('img');
-  imgPreview.src = 'img/upload-default-image.jpg';
   const effectNone = document.querySelector('#effect-none');
   effectNone.checked = true;
   imgUploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEditorEscKeydown);
+  document.removeEventListener('click', onButtonUploadClick);
+  removeEventForm();
+  removeEventZoom();
   imgUploadPreview.style = '';
   resetValueInput();
   sliderElement.noUiSlider.off();
   hashtagInput.value = '';
   commentArea.value = '';
+  inputEditor.value = null;
+  imgPreview.src = IMG_SRC;
 }
-buttonEditor.addEventListener('click', closeUploadOverlay);
+buttonEditor.addEventListener('click', onButtonUploadClick);
 
 //Закрытие окна клавишей Esc
 const onEditorEscKeydown = (evt) => {
   if (isEscEvent(evt)) {
-    closeUploadOverlay();
+    onButtonUploadClick();
   }
 }
 
@@ -145,4 +155,4 @@ effectsList.addEventListener('change', (evt) => {
     imgUploadPreview.style.filter = effects[effect].getFilterStyle(effectLevelValue.value);
   });
 });
-export {onEditorEscKeydown, closeUploadOverlay};
+export {onEditorEscKeydown, onButtonUploadClick};

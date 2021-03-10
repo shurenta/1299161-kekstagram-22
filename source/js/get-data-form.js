@@ -1,4 +1,4 @@
-import {closeUploadOverlay} from './generate-effect.js';
+import {onButtonUploadClick} from './generate-effect.js';
 import {isEscEvent} from './util.js';
 const main = document.querySelector('main');
 const Status = {
@@ -68,13 +68,13 @@ const setUserFormSubmit = (onSuccess) => {
           onSuccess();
         } else {
           showStatusModal(Status.error);
-          closeUploadOverlay();
+          onButtonUploadCdlick();
         }
       })
       .catch(() => {
         showStatusModal(Status.error);
-        closeUploadOverlay();
+        onButtonUploadCdlick();
       });
   });
 }
-setUserFormSubmit(closeUploadOverlay);
+setUserFormSubmit(onButtonUploadClick);

@@ -6,7 +6,7 @@ const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const uploadPreview = document.querySelector('.img-upload__preview');
 const imgUploadPreview = uploadPreview.querySelector('img');
-scaleControlValue.value = SCALE_CONTROL_MAX + '%';
+scaleControlValue.value = `${SCALE_CONTROL_MAX} %`;
 let numberValue = Number.parseInt(scaleControlValue.value);
 scaleControlBigger.disabled = true;
 
@@ -42,4 +42,14 @@ const resetValueInput = () => {
 
 scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
 scaleControlBigger.addEventListener('click', onButtonBiggerClick);
-export {resetValueInput};
+
+const addEventZoom = () => {
+  scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
+  scaleControlBigger.addEventListener('click', onButtonBiggerClick);
+}
+
+const removeEventZoom = () => {
+  scaleControlSmaller.removeEventListener('click', onButtonSmallerClick);
+  scaleControlBigger.removeEventListener('click', onButtonBiggerClick);
+}
+export {resetValueInput, removeEventZoom, addEventZoom};

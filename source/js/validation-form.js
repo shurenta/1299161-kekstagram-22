@@ -12,7 +12,7 @@ const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
 
 const generateValidation = () => {
-    const valueLength = hashtagInput.value.length;
+  const valueLength = hashtagInput.value.length;
   const hashtagValue = hashtagInput.value.toLowerCase().split(' ');
   if (hashtagInput.value === '') {
     hashtagInput.setCustomValidity('');

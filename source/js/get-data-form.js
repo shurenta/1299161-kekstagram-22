@@ -68,12 +68,12 @@ const setUserFormSubmit = (onSuccess) => {
           onSuccess();
         } else {
           showStatusModal(Status.error);
-          onButtonUploadCdlick();
+          onButtonUploadClick();
         }
       })
       .catch(() => {
         showStatusModal(Status.error);
-        onButtonUploadCdlick();
+        onButtonUploadClick();
       });
   });
 }

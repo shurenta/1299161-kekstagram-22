@@ -1,7 +1,7 @@
 /*global noUiSlider*/
 import {isEscEvent} from './util.js';
 import {resetValueInput, removeEventZoom, addEventZoom} from './zoom-photo.js';
-import {generateValidation, addEventForm, removeEventForm} from './validation-form.js';
+import {addEventForm, removeEventForm} from './validation-form.js';
 import './download-file.js';
 const IMG_SRC = 'img/upload-default-image.jpg';
 const effectLevel = document.querySelector('.effect-level');

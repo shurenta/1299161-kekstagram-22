@@ -67,23 +67,19 @@ hashtagInput.addEventListener('input', generateValidation);
 const onInputHashtagFocus = () => {
   document.removeEventListener('keydown', onEditorEscKeydown);
 }
-hashtagInput.addEventListener('focus', onInputHashtagFocus);
 
 const onInputHashtagBlur = () => {
   document.addEventListener('keydown', onEditorEscKeydown);
 }
-hashtagInput.addEventListener('blur', onInputHashtagBlur);
 
 
 const onInputCommentFocus = () => {
   document.removeEventListener('keydown', onEditorEscKeydown);
 }
-commentArea.addEventListener('focus', onInputCommentFocus);
 
 const onInputCommentBlur = () => {
   document.addEventListener('keydown', onEditorEscKeydown);
 }
-commentArea.addEventListener('blur', onInputCommentBlur);
 
 const addEventForm = () => {
   hashtagInput.addEventListener('input', generateValidation);

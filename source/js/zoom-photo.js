@@ -40,9 +40,6 @@ const resetValueInput = () => {
   scaleControlBigger.disabled = true;
 }
 
-scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
-scaleControlBigger.addEventListener('click', onButtonBiggerClick);
-
 const addEventZoom = () => {
   scaleControlSmaller.addEventListener('click', onButtonSmallerClick);
   scaleControlBigger.addEventListener('click', onButtonBiggerClick);

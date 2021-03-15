@@ -4,6 +4,7 @@ const ACTIVE_CLASS = 'img-filters__button--active';
 const FILTER_RANDOM = 'filter-random';
 const FILTER_DISCUSSED = 'filter-discussed';
 const FILTER_DEFAULT = 'filter-default';
+const TIME = 500;
 
 const deleteMiniPhoto = () => {
   const miniPhoto = document.querySelectorAll('.picture');
@@ -46,7 +47,7 @@ const initFilters = (photos) => {
       case FILTER_DEFAULT:
         return renderDefaultPhotos();
     }
-  }, 500)
+  }, TIME)
 
   filtersButton.forEach((filterButton) => {
     filterButton.addEventListener('click', (evt) => {

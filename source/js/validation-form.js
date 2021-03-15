@@ -7,6 +7,7 @@ const MAX_NAME_HASHTAG = 20;
 const VALID = 'black';
 const INVALID = 'red';
 const LATTICE = '#';
+const QUANTITY = 5;
 
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
@@ -38,7 +39,7 @@ const generateValidation = () => {
       hashtagInput.setCustomValidity('Удалите лишние ' + (hashtag.length - MAX_NAME_HASHTAG) +' симв.');
       break;
     }
-    if (hashtagValue.length > 5) {
+    if (hashtagValue.length > QUANTITY) {
       hashtagInput.setCustomValidity('может быть только 5ть хэштегов');
       break;
     }
